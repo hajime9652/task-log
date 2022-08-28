@@ -9,7 +9,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "80:80"
-      - "8090:8080"
+      - "8080:8080"
     command:
       # Enable Docker in Traefik, so that it reads labels from Docker services
       - --providers.docker
@@ -38,6 +38,12 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    environment:
+      - SERVER_NAME=api.${DOMAIN?Variable not set}
+      - SERVER_HOST=http://${CLIENT_HOST?Variable not set}
+      # Allow explicit env var override for tests
+      - SMTP_HOST=${SMTP_HOST}
+      - DOMAIN=http://${DOMAIN?Variable not set}
     networks:
       - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
       - default
