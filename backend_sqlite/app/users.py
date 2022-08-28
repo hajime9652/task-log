@@ -12,7 +12,7 @@ from fastapi_users.authentication import (
 from fastapi_users.db import SQLAlchemyUserDatabase
 from httpx_oauth.clients.google import GoogleOAuth2
 
-from app.db import User, get_user_db
+from app.db import User, Project, get_user_db, async_session_maker
 from app.utils import (
     send_reset_password_email,
     send_new_account_email
@@ -31,6 +31,18 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     async def on_after_register(self, user: User, request: Optional[Request] = None):
         print(f"User {user.id} has registered.")
+        # TODO: CRUDの処理はまとめる
+        obj_in={
+            "title": "初回プロジェクト",
+            "fee": 1000,
+            "is_active": True
+        }
+        db_obj= Project(**obj_in, owner_id=user.id)
+        async with async_session_maker() as db:
+            db.add(db_obj)
+            await db.commit()
+            await db.refresh(db_obj)
+            print(f"create mock data {db_obj.title}")
 
     async def on_after_forgot_password(
         self, user: User, token: str, request: Optional[Request] = None
