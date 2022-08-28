@@ -24,7 +24,7 @@ router.post('/login', async (req) => {
 
 router.post('/signup', async (req) => {
   const body = await useBody(req)
-  const token = await $fetch<Token>(`http://backend:8000/auth/register`, {
+  const userData = await $fetch(`http://backend:8000/auth/register`, {
     method: 'POST',
 		body: body,
     async onRequestError({ request, options, error }) {
@@ -32,7 +32,7 @@ router.post('/signup', async (req) => {
       console.log('[fetch request error]', request, options, error)
     }
   })
-  return token
+  return userData
 })
 
 router.post('/forgot-password', async (req) => {
@@ -46,6 +46,30 @@ router.post('/forgot-password', async (req) => {
     }
   })
   return true
+})
+
+router.post('/request-verify-token', async (req) => {
+  const body = await useBody(req)
+  await $fetch(`http://backend:8000/auth/request-verify-token`, {
+    method: 'POST',
+		body: body,
+    async onRequestError({ request, options, error }) {
+      // Log error
+      console.log('[fetch request error]', request, options, error)
+    }
+  })
+})
+
+router.post('/verify', async (req) => {
+  const body = await useBody(req)
+  await $fetch(`http://backend:8000/auth/verify`, {
+    method: 'POST',
+		body: body,
+    async onRequestError({ request, options, error }) {
+      // Log error
+      console.log('[fetch request error]', request, options, error)
+    }
+  })
 })
 
 export default useBase('/api/auth', router.handler)

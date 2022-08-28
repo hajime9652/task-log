@@ -1,4 +1,5 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
+import { ColorScheme } from '~~/.nuxt/components'
 
 export const useUserStore = defineStore('user', () => {
 
@@ -38,10 +39,12 @@ export const useUserStore = defineStore('user', () => {
 
   const getProjectRecord = async () => {
     if (logined.value) {
-      const responceProjects = await $fetch(`/api/projects/user`, {
+      const responseProjects = await $fetch(`/api/projects/user`, {
         headers: {authorization: `Bearer ${token.value}`}
       })
-      projects.value = responceProjects
+      console.log("responceProjects")
+      console.log(responseProjects)
+      projects.value = responseProjects
   
       const responceRecords = await $fetch(`/api/projects/user/records`, {
         headers: {authorization: `Bearer ${token.value}`}
@@ -97,7 +100,36 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const signUp = async (payload :{email:string, password:string}) => {
-    await $fetch(`/api/auth/signup`, {method:'POST', body: payload})
+    const userData = await $fetch(`/api/auth/signup`, {
+      method:'POST',
+      body: {
+        ...payload,
+        "is_active": true,
+        "is_superuser": false,
+        "is_verified": false
+      }
+    })
+
+    const token = await $fetch(`/api/auth/request-verify-token`, {
+      method: 'POST',
+      body: {
+        email: userData.email
+      }
+    })
+  }
+
+  const verifyMail = async (
+    payload: { token: string }
+  ) => {
+    try {
+      const response = await $fetch(`/api/auth/verify`, { method: 'POST', body:payload })
+      logined.value = true
+      localStorage.setItem('auth:token', token.value)
+      getProjectRecord()
+      return true
+    } catch (e) {
+      return false
+    }
   }
 
   const addProject = async (payload: createProject) => {
@@ -120,12 +152,29 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const addRecord = async (selectedProjectId:number, payload: creteaRecord) => {
-    await $fetch(`/api/projects/${selectedProjectId}/record`, {
-      method: 'POST',
-      body: payload,
-      headers: {authorization: `Bearer ${token.value}`}
-    })
-    getProjectRecord()
+    if (logined.value) {
+      await $fetch(`/api/projects/${selectedProjectId}/record`, {
+        method: 'POST',
+        body: payload,
+        headers: {authorization: `Bearer ${token.value}`}
+      })
+      getProjectRecord()
+    }
+    else {
+      const _project = projects.value.find(({id}) => id===selectedProjectId)
+      let maxId = 0
+      records.value.forEach(record => {
+        if (record.id > maxId) {
+          maxId = record.id;
+        }
+      });
+      records.value.push({
+        id:maxId+1,
+        project_id:_project.id,
+        ...payload,
+        time_created:"no tracking",
+        time_updated:""})
+    }
   }
 
   const updateRecord = async (selectedProjectId:number, payload: updateRecord ) => {
@@ -148,7 +197,7 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     token, logined, projects, records, getProjectTitle,
-    logIn, logOut, checkLogIn, forgotPassword, signUp,
+    logIn, logOut, checkLogIn, forgotPassword, signUp, verifyMail,
     getProjectRecord,
     addProject, archiveProject, 
     addRecord, updateRecord, deleteRecord
