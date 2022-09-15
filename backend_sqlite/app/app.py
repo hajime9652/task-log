@@ -18,6 +18,9 @@ from app.users import (
     fastapi_users,
     google_oauth_client,
 )
+from app.utils import (
+    send_test_email
+)
 
 app = FastAPI()
 
@@ -167,6 +170,13 @@ async def create_record(project_id: int, obj_in: RecordCreate, user: User = Depe
     await db.refresh(db_obj)
     return db_obj
 
+@app.post("/utils/test-email/", tags=["utils"])
+def test_email(email_to: EmailStr):
+    """
+    Test emails.
+    """
+    send_test_email(email_to=email_to)
+    return {"msg": "Test email sent"}
 # @app.on_event("startup")
 # async def on_startup():
 #     # Not needed if you setup a migration system like Alembic
