@@ -87,6 +87,7 @@
   </script>
   
   <template>
+    <!-- カラーテーマ設定 -->
     <div class="p-4">
       <select class="select" v-model="colorMode.preference">
         <option disabled selected>Theme</option>
@@ -173,6 +174,7 @@
         </table>
       </div>
     </div>
+    <!-- ログインモーダル -->
     <input type="checkbox" id="modal-login" class="modal-toggle" />
     <label for="modal-login" class="modal cursor-pointer">
       <label class="modal-box relative" for="">
@@ -202,7 +204,8 @@
         </div>
       </label>
     </label>
-  
+
+    <!-- パスワード忘れたモーダル -->
     <input type="checkbox" id="modal-forget" class="modal-toggle" />
     <label for="modal-forget" class="modal cursor-pointer">
       <label class="modal-box relative" for="">
@@ -214,7 +217,8 @@
         </div>
       </label>
     </label>
-  
+
+    <!-- 新規登録モーダル -->
     <input type="checkbox" id="modal-signup" class="modal-toggle" />
     <label for="modal-signup" class="modal cursor-pointer">
       <label class="modal-box relative" for="">
@@ -225,7 +229,8 @@
         </div>
       </label>
     </label>
-  
+
+    <!-- レコード更新モーダル -->
     <input type="checkbox" id="modal-update-record" class="modal-toggle" />
     <label for="modal-update-record" class="modal cursor-pointer">
       <label class="modal-box relative" for="">
@@ -237,7 +242,8 @@
         </div>
       </label>
     </label>
-    
+
+    <!-- プロジェクト確認・設定モーダル -->
     <input type="checkbox" id="modal-projects" class="modal-toggle" />
     <label for="modal-projects" class="modal cursor-pointer">
       <label class="modal-box relative" for="">
