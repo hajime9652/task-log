@@ -34,8 +34,7 @@ EMAILS_FROM_EMAIL=
 - 状態管理：[pinia](https://pinia.vuejs.org/)
 - CSSフレームワーク：[tailwindcss&daisyui](https://tailwindcss.nuxtjs.org/examples/daisyui)
 
-# TODO
-このアプリケーションに対して以下の作業をしてください。
+# 確認
 - メール配信環境がない・できない場合は、メールアドレスの検証はスルーできるようにしてください。メールアドレスの検証を行わなくて、ログインなどが可能です。
 - OpenAPIで実際にユーザーを作成したり、削除したりしてみてください
     - SqliteでユーザーIDを確認する必要があります。この[vscodeの拡張機能](https://qiita.com/ritya/items/098835a96f3fcf7c6661)を使ってください
