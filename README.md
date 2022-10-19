@@ -21,7 +21,7 @@ SMTP_PORT=587
 SMTP_HOST=smtp-relay.gmail.com
 SMTP_USER=
 SMTP_PASSWORD=
-EMAILS_FROM_EMAIL=
+EMAILS_FROM_EMAIL=user@example.com
 ```
 
 ## サーバーサイド
