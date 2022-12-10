@@ -1,11 +1,11 @@
-FROM node:alpine as installer
+FROM node:lts-alpine  as installer
 
 WORKDIR /app
 
 COPY package.json yarn.lock* ./
 RUN yarn install
 
-FROM node:alpine
+FROM node:lts-alpine 
 
 WORKDIR /app
 COPY --from=installer /app/node_modules ./node_modules
