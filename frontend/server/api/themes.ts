@@ -31,6 +31,6 @@ const themes = [
   'winter',
 ]
 
-export default async () => {
+export default defineEventHandler(async () => {
   return themes
-}
+})

@@ -7,8 +7,8 @@ interface Token {
   token_type: string
 }
 
-router.post('/login', async (req) => {
-  const body = await useBody(req)
+router.post('/login', defineEventHandler(async (req) => {
+  const body = await readBody(req)
   const token = await $fetch<Token>(`http://backend:8000/auth/jwt/login`, {
     method: 'POST',
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -20,10 +20,10 @@ router.post('/login', async (req) => {
   })
 
   return token.access_token
-})
+}))
 
-router.post('/signup', async (req) => {
-  const body = await useBody(req)
+router.post('/signup', defineEventHandler(async (req) => {
+  const body = await readBody(req)
   const userData = await $fetch(`http://backend:8000/auth/register`, {
     method: 'POST',
 		body: body,
@@ -33,10 +33,10 @@ router.post('/signup', async (req) => {
     }
   })
   return userData
-})
+}))
 
-router.post('/forgot-password', async (req) => {
-  const body = await useBody(req)
+router.post('/forgot-password', defineEventHandler(async (req) => {
+  const body = await readBody(req)
   const token = await $fetch<Token>(`http://backend:8000/auth/forgot-password`, {
     method: 'POST',
 		body: body,
@@ -46,10 +46,10 @@ router.post('/forgot-password', async (req) => {
     }
   })
   return true
-})
+}))
 
-router.post('/request-verify-token', async (req) => {
-  const body = await useBody(req)
+router.post('/request-verify-token', defineEventHandler(async (req) => {
+  const body = await readBody(req)
   await $fetch(`http://backend:8000/auth/request-verify-token`, {
     method: 'POST',
 		body: body,
@@ -58,10 +58,10 @@ router.post('/request-verify-token', async (req) => {
       console.log('[fetch request error]', request, options, error)
     }
   })
-})
+}))
 
-router.post('/verify', async (req) => {
-  const body = await useBody(req)
+router.post('/verify', defineEventHandler(async (req) => {
+  const body = await readBody(req)
   await $fetch(`http://backend:8000/auth/verify`, {
     method: 'POST',
 		body: body,
@@ -70,6 +70,6 @@ router.post('/verify', async (req) => {
       console.log('[fetch request error]', request, options, error)
     }
   })
-})
+}))
 
 export default useBase('/api/auth', router.handler)

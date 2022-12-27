@@ -19,70 +19,98 @@ export interface UserRead {
   projects: Array<ProjectRead>
 }
 
-router.get('/user', async (req) => {
+router.get('/user', defineEventHandler(async (req) => {
+  let authToken = getHeader(req, 'authorization')
+  if (authToken === undefined) {
+    authToken = ''
+  }
   const response = await $fetch(`http://backend:8000/users/me/projects`,{
-    headers: {Authorization: req.headers.authorization},
+    headers: {Authorization: authToken},
   })
   return response
-})
+}))
 
-router.get('/user/records', async (req) => {
+router.get('/user/records', defineEventHandler(async (req) => {
+  let authToken = getHeader(req, 'authorization')
+  if (authToken === undefined) {
+    authToken = ''
+  }
   const response = await $fetch(`http://backend:8000/users/me/records`,{
-    headers: {Authorization: req.headers.authorization},
+    headers: {Authorization: authToken},
   })
   return response
-})
+}))
 
-router.post('/', async (req) => {
-  const body = await useBody(req)
+router.post('/', defineEventHandler(async (req) => {
+  let authToken = getHeader(req, 'authorization')
+  if (authToken === undefined) {
+    authToken = ''
+  }
+  const body = await readBody(req)
   const response = await $fetch(`http://backend:8000/users/me/project`, {
     method: 'POST',
     body: body,
-    headers: {Authorization: req.headers.authorization}
+    headers: {Authorization: authToken}
   })
   return response
-})
+}))
 
-router.post('/:projectId', async (req) => {
-  const body = await useBody(req)
+router.post('/:projectId', defineEventHandler(async (req) => {
+  let authToken = getHeader(req, 'authorization')
+  if (authToken === undefined) {
+    authToken = ''
+  }
+  const body = await readBody(req)
   const response = await $fetch(
     `http://backend:8000/users/me/project/${req.context.params.projectId}`, {
     method: 'PATCH',
     body: body,
-    headers: {Authorization: req.headers.authorization}
+    headers: {Authorization: authToken}
   })
   return response
-})
+}))
 
-router.post(`/:projectId/record`, async (req) => {
-  const body = await useBody(req)
+router.post(`/:projectId/record`, defineEventHandler(async (req) => {
+  let authToken = getHeader(req, 'authorization')
+  if (authToken === undefined) {
+    authToken = ''
+  }
+  const body = await readBody(req)
   const response = await $fetch(
     `http://backend:8000/users/me/project/${req.context.params.projectId}/record`, {
     method: 'POST',
     body: body,
-    headers: {Authorization: req.headers.authorization},
+    headers: {Authorization: authToken},
   })
   return response
-})
+}))
 
-router.post(`/record/:recordId`, async (req) => {
-  const body = await useBody(req)
+router.post(`/record/:recordId`, defineEventHandler(async (req) => {
+  let authToken = getHeader(req, 'authorization')
+  if (authToken === undefined) {
+    authToken = ''
+  }
+  const body = await readBody(req)
   const response = await $fetch(
     `http://backend:8000/users/me/project/record/${req.context.params.recordId}`, {
     method: 'PATCH',
     body: body,
-    headers: {Authorization: req.headers.authorization},
+    headers: {Authorization: authToken},
   })
   return response
-})
+}))
 
-router.delete(`/record/:recordId`, async (req) => {
+router.delete(`/record/:recordId`,defineEventHandler( async (req) => {
+  let authToken = getHeader(req, 'authorization')
+  if (authToken === undefined) {
+    authToken = ''
+  }
   const response = await $fetch(
     `http://backend:8000/users/me/project/record/${req.context.params.recordId}`, {
     method: 'DELETE',
-    headers: {Authorization: req.headers.authorization},
+    headers: {Authorization: authToken},
   })
   return response
-})
+}))
 
 export default useBase('/api/projects', router.handler)
