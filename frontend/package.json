@@ -8,13 +8,13 @@
   },
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.1.4",
-    "@nuxtjs/tailwindcss": "^5.3.1",
+    "@nuxtjs/tailwindcss": "^6.2.0",
     "daisyui": "^2.20.0",
-    "nuxt": "3.0.0-rc.8"
+    "nuxt": "^3.0.0-rc.14"
   },
   "dependencies": {
-    "@heroicons/vue": "^1.0.6",
-    "@pinia/nuxt": "^0.3.1",
+    "@heroicons/vue": "^2.0.13",
+    "@pinia/nuxt": "^0.4.6",
     "date-fns": "^2.29.1"
   }
 }
