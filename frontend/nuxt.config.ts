@@ -1,8 +1,8 @@
-import { defineNuxtConfig } from 'nuxt'
-
-// https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', '@pinia/nuxt',
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
+    '@pinia/nuxt'
   ],
   colorMode: {
     preference: 'system', // default theme
@@ -12,11 +12,11 @@ export default defineNuxtConfig({
   build: {
     transpile: ['@heroicons/vue']
   },
-  serverMiddleware: [
-    { path: '/api/auth', handler: '~/server/api/auth.ts' },
-    { path: '/api/auth/**', handler: '~/server/api/auth.ts' },
-    { path: '/api/projects', handler: '~/server/api/projects.ts' },
-    { path: '/api/projects/**', handler: '~/server/api/projects.ts' },
+  serverHandlers: [
+    { route: '/api/auth', handler: '~/server/api/auth.ts' },
+    { route: '/api/auth/**', handler: '~/server/api/auth.ts' },
+    { route: '/api/projects', handler: '~/server/api/projects.ts' },
+    { route: '/api/projects/**', handler: '~/server/api/projects.ts' },
   ],
 })
 
