@@ -1,6 +1,6 @@
 <script setup>
   import { format, formatDistanceStrict } from 'date-fns'
-  import { DotsVerticalIcon, ArchiveIcon } from '@heroicons/vue/solid'
+  import { EllipsisVerticalIcon, ArchiveBoxIcon } from '@heroicons/vue/24/solid'
   import { useUserStore } from '@/store/user'
   const userState = useUserStore()
   
@@ -166,7 +166,7 @@
               <td>{{ userState.getProjectTitle(item.project_id) }}</td>
               <td>
                 <label class="w-7 btn btn-circle btn-outline" @click="openDetail(item)">
-                  <DotsVerticalIcon class="w-4 h-4"/>
+                  <EllipsisVerticalIcon class="w-4 h-4"/>
                 </label>
               </td>
             </tr>
@@ -261,7 +261,7 @@
               <td>{{item.fee}}円</td>
               <td>
                 <label class="btn btn-ghost" @click="userState.archiveProject(item)">
-                  <ArchiveIcon class="w-6 h-6"/>
+                  <ArchiveBoxIcon class="w-6 h-6"/>
                 </label>
               </td>
             </tr>
