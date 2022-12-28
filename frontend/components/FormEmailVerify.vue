@@ -4,8 +4,8 @@
   const route = useRoute()
   const router = useRouter()
   
-  onMounted(() => {
-    const verifyFlag = userState.verifyMail({token:route.query.token as string})
+  onMounted(async () => {
+    const verifyFlag = await userState.verifyMail({token:route.query.token as string})
     if (verifyFlag) {
       router.push('/')
     }

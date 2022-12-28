@@ -1,5 +1,4 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { ColorScheme } from '~~/.nuxt/components'
 
 export const useUserStore = defineStore('user', () => {
 
@@ -22,7 +21,7 @@ export const useUserStore = defineStore('user', () => {
       endTime: '2022-10-11 pm 3:00',
       fee: 100,
       id: 0,
-      time_updated: null,
+      time_updated: '',
       time_created: "2022-08-05T01:48:47",
     }
   ])
@@ -62,8 +61,9 @@ export const useUserStore = defineStore('user', () => {
 
   const checkLogIn = async () => {
     if (!(logined.value||token.value)) {
-      token.value = localStorage.getItem('auth:token')
-      if (token.value) {
+      const authToken = localStorage.getItem('auth:token')
+      if (authToken) {
+        token.value = authToken
         logined.value = true
       }
       else {
@@ -89,7 +89,7 @@ export const useUserStore = defineStore('user', () => {
         endTime: '2022-10-11 pm 3:00',
         fee: 100,
         id: 0,
-        time_updated: null,
+        time_updated: '',
         time_created: "2022-08-05T01:48:47",
       }
     ]
@@ -167,13 +167,15 @@ export const useUserStore = defineStore('user', () => {
         if (record.id > maxId) {
           maxId = record.id;
         }
-      });
-      records.value.push({
-        id:maxId+1,
-        project_id:_project.id,
-        ...payload,
-        time_created:"no tracking",
-        time_updated:""})
+      })
+      if (_project) {
+        records.value.push({
+          id:maxId+1,
+          project_id:_project.id,
+          ...payload,
+          time_created:"no tracking",
+          time_updated:""})
+      }
     }
   }
 
