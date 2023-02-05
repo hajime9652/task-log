@@ -72,10 +72,9 @@ EMAILS_FROM_EMAIL=user@example.com
 
 ## サーバーサイド
 Mongo dbでの実装にチャレンジしてください。
-実際には、プロジェクトの立ち上げ・Dockerの使い方の確認がメインになっています。
 - ディレクトリから作成してください。合わせて、docker-compose.ymlの設定を行ってください。[このような記事](https://laid-back-scientist.com/docker-mongo)を参考にしてください（記事の内容は未確認です）
 - 認証認可は[こちら](https://github.com/fastapi-users/fastapi-users/tree/master/examples/beanie)を参照
-- Project/RecordのCRUD処理もコピペして追加してください。
+- Project/RecordのCRUD処理をBeanieに合わせて追加してください。
 
 
 MongoDB / Beanieを扱うのに必要なこと
@@ -86,7 +85,9 @@ MongoDB / Beanieを扱うのに必要なこと
 
 ### 1 Documentを継承して、modelを定義します。
 https://beanie-odm.dev/tutorial/defining-a-document/
+
 RelationはLinkを使います。
+
 https://beanie-odm.dev/tutorial/relations/
 
 ```
@@ -133,6 +134,7 @@ async def on_startup():
 
 ### 3 Beanieのmodelを使ったデータの保存の処理
 Relationの保存は、link_rule=WriteRules.WRITEを使います。
+
 https://beanie-odm.dev/tutorial/inserting-into-the-database/
 ```
 db_obj= Project(**obj_in.dict(), owner_id=user.id)
@@ -148,6 +150,7 @@ return db_obj
 ```
 
 また、Relationの子要素（Project, Record）を取得するために、```await user.fetch_all_links()```を使います。
+
 https://beanie-odm.dev/tutorial/relations/#on-demand-fetch
 
 
