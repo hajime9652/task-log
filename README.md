@@ -90,7 +90,7 @@ RelationはLinkを使います。
 
 https://beanie-odm.dev/tutorial/relations/
 
-```
+```python
 from beanie import PydanticObjectId, Document, Link
 class Record(Document):
     memo: str
@@ -121,7 +121,7 @@ class Project(Document):
 
 ### 2 startupで初期化をするときには、init_beanie()を使います。このときに、document_modelsに1で定義したmodelを与えます。
 https://beanie-odm.dev/tutorial/initialization/
-```
+```python
 @app.on_event("startup")
 async def on_startup():
     await init_beanie(
@@ -136,7 +136,7 @@ async def on_startup():
 Relationの保存は、link_rule=WriteRules.WRITEを使います。
 
 https://beanie-odm.dev/tutorial/inserting-into-the-database/
-```
+```python
 db_obj= Project(**obj_in.dict(), owner_id=user.id)
 user.projects.append(db_obj)
 await user.save(link_rule=WriteRules.WRITE)
@@ -145,7 +145,7 @@ return db_obj
 
 
 データを返すときに、Beanieのmodelは、_idを扱っているので、これをidとするために、```response_model=List[Project], response_model_by_alias=False```を設定しています。
-```
+```python
 @app.post("/users/me/project", tags=["users"], response_model=List[Project], response_model_by_alias=False)
 ```
 
