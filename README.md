@@ -150,6 +150,13 @@ return db_obj
 ```
 
 また、Relationの子要素（Project, Record）を取得するために、```await user.fetch_all_links()```を使います。
+```python
+@app.get("/users/me/projects", tags=["users"], response_model=List[Project], response_model_by_alias=False)
+async def get_user_active_projects(user: User = Depends(current_active_user)):
+    await user.fetch_all_links()
+    return [item for item in user.projects if item.is_active]
+```
+
 
 https://beanie-odm.dev/tutorial/relations/#on-demand-fetch
 
